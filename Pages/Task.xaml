@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MauiApp8.ViewModels"
+             x:Class="MauiApp8.Pages.Task"
+             x:DataType="viewmodel:MainViewModels"
+             Title="Task Manager">
+    <Grid Padding="10"
+          RowSpacing="5"
+          ColumnSpacing="5"
+          RowDefinitions="100, auto, *"
+          ColumnDefinitions=".75*, .25*">
+
+        <Image Source="dotnet_bot.png"
+               BackgroundColor="OrangeRed"
+               Grid.ColumnSpan="2"/>
+
+        <Entry Placeholder="Enter task"
+               Grid.Row="1"
+               BackgroundColor="Azure"
+               Text="{Binding Text}"/>
+        <Button Text="Add" 
+                Command="{Binding AddCommand}"
+                Grid.Row="1"
+                Grid.Column="2"/>
+
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
+                        ItemsSource="{Binding Items}">
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type x:String}">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" BackgroundColor="Red"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModels}}, Path=DeleteCommand}"
+                                           CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Update" BackgroundColor="LightCoral"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModels}}, Path=EditCommand}"
+                                           CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <Grid Padding="0,5">
+                            <Frame BorderColor="Gray">
+                                <Label Text="{Binding .}" 
+                                       FontSize="24"/>
+                            </Frame>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+    
+</ContentPage>
